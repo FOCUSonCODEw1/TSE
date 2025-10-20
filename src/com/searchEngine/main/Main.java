@@ -1,4 +1,6 @@
-package Main;
+package com.searchEngine.main;
+
+import com.searchEngine.terminalUI.TerminalUI;
 
 public class Main{
 	public static void main(String[] args){

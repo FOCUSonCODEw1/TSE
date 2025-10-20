@@ -1,6 +1,7 @@
-package termalUI;
+package com.searchEngine.terminalUI;
 
-import java.utils.Scanner;
+import java.util.Scanner;
+import com.searchEngine.apiClient.*;
 
 public class TerminalUI{
 	
@@ -12,6 +13,7 @@ public class TerminalUI{
 		System.out.println("Welcome to openTSE");
 		recentInput = scanner.nextLine();
 		APIClientInterface apiClient = new APIClient();
-			apiClient.fetchResponse(recentInput);
+		System.out.println(apiClient.fetchResponse(recentInput).toString());
 	}
-		
+	
+}	
