@@ -11,7 +11,7 @@ public class APIClient implements APIClientInterface{
 	
 		@Override
 		public LinkedList<String> fetchResponse(String searchQuery){
-			String url = "http://localhost/search?q=python&category_general=1&language=auto&time_range=&safesearch=0&theme=simple";
+			String url = "http://localhost/search?q="+ searchQuery +"&category_general=1&language=auto&time_range=&safesearch=0&theme=simple";
 			Elements results;
 			LinkedList<String> links = new LinkedList<>();
 			try{
