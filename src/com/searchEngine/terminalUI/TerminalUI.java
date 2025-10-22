@@ -3,6 +3,8 @@ package com.searchEngine.terminalUI;
 import java.util.Scanner;
 import java.util.LinkedList;
 import com.searchEngine.apiClient.*;
+import com.searchEngine.searchResult.SearchResult;
+import com.searchEngine.searchResult.SearchResultInterface;
 
 public class TerminalUI{
 	
@@ -24,9 +26,9 @@ public class TerminalUI{
 		this.displayLinkedList(apiClient.fetchResponse(recentInput));
 	}
 
-	public void displayLinkedList(LinkedList<String> linkList){
+	public void displayLinkedList(LinkedList<SearchResultInterface> linkList){
 		for (int i = 0; i < linkList.size(); i++){
-			String link = linkList.get(i);
+			String link = linkList.get(i).getLink();
 			int x = i + 1;
 			System.out.println("[#"+ x +"] -->"+ link);
 			System.out.println("");
