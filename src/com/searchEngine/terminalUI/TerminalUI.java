@@ -5,14 +5,13 @@ import java.util.LinkedList;
 import com.searchEngine.apiClient.*;
 import com.searchEngine.searchResult.SearchResult;
 import com.searchEngine.searchResult.SearchResultInterface;
+import com.searchEngine.searchService.SearchService;
 
 public class TerminalUI{
 	
 	private final Scanner scanner = new Scanner(System.in);
-	private APIClientInterface apiClient = new APIClient();
+	private final SearchService searchService = new SearchService();
 	private String recentInput;
-	private boolean isLinkedList;
-
 
 	public void run(String[] args){
 		System.out.println("Welcome to openTSE");
@@ -23,7 +22,14 @@ public class TerminalUI{
 
 	public void handleRequest(){
 		recentInput = scanner.nextLine();
-		this.displayLinkedList(apiClient.fetchResponse(recentInput));
+		char hashTag = '#';
+		if(recentInput.charAt(0) != hashTag){
+			this.displayLinkedList(searchService.getSearchResult(recentInput));
+		}
+		/*else{
+			this.displayHTML(html);
+		}
+		*/
 	}
 
 	public void displayLinkedList(LinkedList<SearchResultInterface> linkList){
@@ -33,6 +39,9 @@ public class TerminalUI{
 			System.out.println("[#"+ x +"] -->"+ link);
 			System.out.println("");
 		}
+	}
+	
+	public void displayHTML(String html){
 	}
 
 			
