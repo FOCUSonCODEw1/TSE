@@ -1,7 +1,5 @@
 package com.searchEngine.apiClient;
 
-import com.searchEngine.searchResult.SearchResult;
-import com.searchEngine.searchResult.SearchResultInterface;
 import com.searchEngine.dto.SearchHit;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

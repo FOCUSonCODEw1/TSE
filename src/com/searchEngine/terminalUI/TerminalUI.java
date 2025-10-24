@@ -3,7 +3,6 @@ package com.searchEngine.terminalUI;
 import java.util.Scanner;
 import java.util.LinkedList;
 import com.searchEngine.apiClient.*;
-import com.searchEngine.searchResult.SearchResult;
 import com.searchEngine.searchResult.SearchResultInterface;
 import com.searchEngine.searchService.SearchService;
 
@@ -12,6 +11,7 @@ public class TerminalUI{
 	private final Scanner scanner = new Scanner(System.in);
 	private final SearchService searchService = new SearchService();
 	private String recentInput;
+	private String lastSearchQuery;
 
 	public void run(String[] args){
 		System.out.println("Welcome to openTSE");
@@ -25,11 +25,13 @@ public class TerminalUI{
 		char hashTag = '#';
 		if(recentInput.charAt(0) != hashTag){
 			this.displayLinkedList(searchService.getSearchResult(recentInput));
+			lastSearchQuery = recentInput;
 		}
-		/*else{
-			this.displayHTML(html);
+		else{
+			int resultCounter = Integer.parseInt(recentInput.substring(1));
+			this.displayHTML(searchService.getWebsitesHTML(lastSearchQuery, resultCounter));
 		}
-		*/
+		
 	}
 
 	public void displayLinkedList(LinkedList<SearchResultInterface> linkList){
@@ -42,6 +44,7 @@ public class TerminalUI{
 	}
 	
 	public void displayHTML(String html){
+		System.out.println(html);
 	}
 
 			
