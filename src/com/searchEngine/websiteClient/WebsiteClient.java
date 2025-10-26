@@ -7,14 +7,19 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
 import java.io.IOException;
 import java.lang.InterruptedException;
+import java.lang.StringBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 
 
 public class WebsiteClient{
 
-	public String getParsedHTML(String Link){
-		return this.parseHTML(this.getPlainHTML(Link));
+
+	public String getReadyHTML(String Link){
+		return this.formatHTML(this.getPlainHTML(Link));
 	}
 
 	public String getPlainHTML(String Link){
@@ -41,10 +46,30 @@ public class WebsiteClient{
 		return Response;
 	}
 
-	public String parseHTML(String plainHTML){
-		Document doc = Jsoup.parse(plainHTML);
-		return doc.text();
+	public String formatHTML(String HTMLString){
+		Document htmlDoc = Jsoup.parse(HTMLString);
+		StringBuilder strBuilder = new StringBuilder();
+
+		for (Node nd : htmlDoc.body().childNodes()){
+			if (nd instanceof Element){
+				Element element = (Element) nd;
+				if (element.tagName().equals("<br>")){
+					strBuilder.append("/n");
+				}
+				else{
+					strBuilder.append(element.text());
+				}
+			}
+			if (nd instanceof TextNode){
+				TextNode textNode = (TextNode) nd;
+				strBuilder.append(textNode.text());
+			}
+		}
+	return strBuilder.toString();
+
 	}
+
+
 }
 
 

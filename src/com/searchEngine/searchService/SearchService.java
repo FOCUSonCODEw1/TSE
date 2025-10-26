@@ -4,14 +4,14 @@ import com.searchEngine.searchResult.SearchResultInterface;
 import com.searchEngine.searchResult.SearchResult;
 import com.searchEngine.dto.SearchHit;
 import com.searchEngine.apiClient.APIClientInterface;
-import com.searchEngine.apiClient.APIClient;
+import com.searchEngine.apiClient.SearXNGClient;
 import java.util.LinkedList;
 import com.searchEngine.websiteClient.WebsiteClient;
 import java.util.HashMap;
 
 public class SearchService{
 
-	private APIClientInterface apiClient = new APIClient();
+	private APIClientInterface apiClient = new SearXNGClient();
 
 	private WebsiteClient websiteClient = new WebsiteClient();
 
@@ -41,7 +41,7 @@ public class SearchService{
 			ex.printStackTrace();
 		}
 
-		return websiteClient.getParsedHTML(Link);
+		return websiteClient.getReadyHTML(Link);
 	}
 
 		

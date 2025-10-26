@@ -7,5 +7,4 @@ public interface APIClientInterface{
 	
 	LinkedList<SearchHit> fetchResponse(String searchQuery);
 
-
 }

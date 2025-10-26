@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class APIClient implements APIClientInterface{
+public class SearXNGClient implements APIClientInterface{
 	
 		@Override
 		public LinkedList<SearchHit> fetchResponse(String searchQuery){
