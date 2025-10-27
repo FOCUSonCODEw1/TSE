@@ -2,18 +2,18 @@ package com.searchEngine.dto;
 
 public class SearchHit{
 
-	public String link;
+	public String href;
 	public String description;
 	public String title;
 	public String date;
 
-	public SearchHit(String link, String description){
-		this.link = link;
+	public SearchHit(String href, String description){
+		this.href = href;
 		this.description = description;
 	}
 
 	public String getLink(){
-		return this.link;
+		return this.href;
 	}
 
 	public String getDescription(){

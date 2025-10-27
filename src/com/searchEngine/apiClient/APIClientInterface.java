@@ -5,6 +5,8 @@ import com.searchEngine.dto.SearchHit;
 
 public interface APIClientInterface{
 	
-	LinkedList<SearchHit> fetchResponse(String searchQuery);
+	LinkedList<SearchHit> fetchResults(String searchQuery);
+
+	String buildURL(String searchQuery);
 
 }
