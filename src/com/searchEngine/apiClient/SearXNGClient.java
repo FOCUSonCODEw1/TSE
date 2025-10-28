@@ -6,25 +6,26 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.lang.InterruptedException;
 import java.util.LinkedList;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
-import java.io.IOException;
-import java.lang.InterruptedException;
 
 
 public class SearXNGClient implements APIClientInterface{
 
-		
-	
+		private final String ARTICLE_SELECTOR = "article.result";
+		private final String ELEMENT_SELECTOR = "article.result > h3 > a";
+		private final String ATTRIBUTE_SELECTOR = "href";
+
+
 		@Override
 		public LinkedList<SearchHit> fetchResults(String searchQuery){
-			String url = "http://localhost/search?q="+ searchQuery +"&category_general=1&language=auto&time_range=&safesearch=0&theme=simple";
 			LinkedList<SearchHit> Results = new LinkedList<>();
-	
+
 			try{
 				HttpClient client = HttpClient.newBuilder()
 				.build();
@@ -38,14 +39,17 @@ public class SearXNGClient implements APIClientInterface{
 
 				Document apiResponse = Jsoup.parse(response.body());
 
-				Elements rawArticles = document.select("article.result");
+				Elements rawArticles = apiResponse.select(ARTICLE_SELECTOR);
 				for(Element rawArticle : rawArticles){
-					Element anchor  = rawArticle.selectFirst("article.result > h3 > a");
-					String href = anchor.attr("href");
-					Results.add(new SearchHit(href, ""));
+					Element anchor  = rawArticle.selectFirst(ELEMENT_SELECTOR);
+					if (anchor != null){
+						String href = anchor.attr(ATTRIBUTE_SELECTOR);
+						Results.add(new SearchHit(href, ""));
+					}
 				}
 			}catch(IOException | InterruptedException ex){
-				ex.printStackTrace();
+				System.out.println("Error: Failed fetchingResults: " + ex.getMessage());
+				return new LinkedList<SearchHit>();
 			}
 			return Results;
 			

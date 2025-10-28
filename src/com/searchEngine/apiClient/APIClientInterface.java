@@ -1,7 +1,8 @@
 package com.searchEngine.apiClient;
 
-import java.util.LinkedList;
 import com.searchEngine.dto.SearchHit;
+import java.util.LinkedList;
+
 
 public interface APIClientInterface{
 	

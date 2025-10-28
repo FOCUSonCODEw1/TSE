@@ -1,53 +1,67 @@
 package com.searchEngine.terminalUI;
 
+import com.searchEngine.apiClient.SearXNGClient;
+import com.searchEngine.searchService.SearchService;
+import com.searchEngine.searchResult.SearchResultInterface;
 import java.util.Scanner;
 import java.util.LinkedList;
-import com.searchEngine.apiClient.*;
-import com.searchEngine.searchResult.SearchResultInterface;
-import com.searchEngine.searchService.SearchService;
+
 
 public class TerminalUI{
 	
 	private final Scanner scanner = new Scanner(System.in);
 	private final SearchService searchService = new SearchService();
 	private String recentInput;
-	private String lastSearchQuery;
+	private String lastSearchQuery = null;
+	private final char HTML_VIEW_PREFIX = '#';
+
 
 	public void run(String[] args){
 		System.out.println("Welcome to openTSE");
 		while (true){
-			this.handleRequest();
+			this.handleInput();
 		}
 	}
 
-	public void handleRequest(){
+	public void handleInput(){
 		recentInput = scanner.nextLine();
-		char hashTag = '#';
-		if(recentInput.charAt(0) != hashTag){
-			this.displayLinkedList(searchService.getSearchResult(recentInput));
-			lastSearchQuery = recentInput;
-		}
-		else{
-			int resultCounter = Integer.parseInt(recentInput.substring(1));
-			this.displayHTML(searchService.getWebsitesHTML(lastSearchQuery, resultCounter));
-		}
-		
+
+		switch (recentInput.charAt(0)) {
+			case HTML_VIEW_PREFIX:
+				int resultCounter;
+			       	try{	
+					resultCounter = Integer.parseInt(recentInput.substring(1));
+				}catch(NumberFormatException ex){
+					System.out.println("Error: Invalid number format!");
+					break;
+				}
+
+				if(lastSearchQuery == null | lastSearchQuery.isEmpty()){
+					System.out.println("Error: Can't show website's HTML before getting search query!");
+					break;
+				}
+				
+				this.displayHTML(searchService.getWebsitesHTML(lastSearchQuery, resultCounter));
+				break;
+			default: 
+				this.displayResultList(searchService.getSearchResult(recentInput));
+				lastSearchQuery = recentInput;
+				break;
+		}		
 	}
 
-	public void displayLinkedList(LinkedList<SearchResultInterface> linkList){
-		for (int i = 0; i < linkList.size(); i++){
-			String link = linkList.get(i).getLink();
-			int x = i + 1;
-			System.out.println("[#"+ x +"] -->"+ link);
-			System.out.println("");
+	public void displayResultList(LinkedList<SearchResultInterface> resultList){
+
+		int resultCounter = 1;
+		for(SearchResultInterface searchResult : resultList){
+			String link = searchResult.getLink();
+			System.out.println("[#"+ resultCounter +"] -->"+ link);
+			System.out.println();
+			resultCounter++;
 		}
 	}
 	
 	public void displayHTML(String html){
 		System.out.println(html);
 	}
-
-			
-
-	
 }	
