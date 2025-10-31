@@ -18,7 +18,8 @@ import java.net.URI;
 public class SearXNGClient implements APIClientInterface{
 
 		private final String ARTICLE_SELECTOR = "article.result";
-		private final String ELEMENT_SELECTOR = "article.result > h3 > a";
+		private final String ANCHOR_ELEMENT_SELECTOR = "article.result > h3 > a";
+		private final String PARAGRAPH_ELEMENT_SELECTOR = "article.result > p.content";
 		private final String ATTRIBUTE_SELECTOR = "href";
 
 
@@ -41,12 +42,18 @@ public class SearXNGClient implements APIClientInterface{
 
 				Elements rawArticles = apiResponse.select(ARTICLE_SELECTOR);
 				for(Element rawArticle : rawArticles){
-					Element anchor  = rawArticle.selectFirst(ELEMENT_SELECTOR);
-					if (anchor != null){
-						String href = anchor.attr(ATTRIBUTE_SELECTOR);
-						Results.add(new SearchHit(href, ""));
+					Element paragraph = rawArticle.selectFirst(PARAGRAPH_ELEMENT_SELECTOR);
+					String content = "";
+					if(paragraph != null){
+						content = paragraph.text();
 					}
-				}
+
+					Element anchor = rawArticle.selectFirst(ANCHOR_ELEMENT_SELECTOR);
+					if(anchor != null){
+						String href = anchor.attr(ATTRIBUTE_SELECTOR);
+						Results.add(new SearchHit(href, content));
+					}
+				}				
 			}catch(IOException | InterruptedException ex){
 				System.out.println("Error: Failed fetchingResults: " + ex.getMessage());
 				return new LinkedList<SearchHit>();

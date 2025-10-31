@@ -14,6 +14,7 @@ public class TerminalUI{
 	private String recentInput;
 	private String lastSearchQuery = null;
 	private final char HTML_VIEW_PREFIX = '#';
+	private final int MAX_LINE_LENGTH = 70;
 
 
 	public void run(String[] args){
@@ -55,7 +56,11 @@ public class TerminalUI{
 		int resultCounter = 1;
 		for(SearchResultInterface searchResult : resultList){
 			String link = searchResult.getLink();
+			String description = searchResult.getDescription();
+			System.out.println("========================================");
 			System.out.println("[#"+ resultCounter +"] -->"+ link);
+			System.out.println();
+			System.out.println(this.formatDescription(description, MAX_LINE_LENGTH));
 			System.out.println();
 			resultCounter++;
 		}
@@ -64,4 +69,29 @@ public class TerminalUI{
 	public void displayHTML(String html){
 		System.out.println(html);
 	}
+
+	public String formatDescription(String unformatedText, int maxLineLength){
+		int currentLineLength = 0;
+		StringBuilder formatedText = new StringBuilder();
+		String[] words = unformatedText.split("\\s+");
+		for(String word : words){
+			if(currentLineLength > maxLineLength && currentLineLength > 0){
+				formatedText.append("\n");
+				currentLineLength = 0;
+			}
+
+			if(currentLineLength > 0){
+				formatedText.append(" ");
+				currentLineLength++;
+			}
+
+			formatedText.append(word);
+			currentLineLength = currentLineLength + word.length();
+		}
+
+		return formatedText.toString();
+		
+	}
+
+
 }	
