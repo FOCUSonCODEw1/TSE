@@ -54,7 +54,7 @@ public class SearchService{
 		       	return "Error: No cached results found for this index!";
 		}
 
-		String link = searchResultCache.get(searchQuery).get(resultCounter).getLink();
+		String link = searchResultCache.get(searchQuery).get(resultIndex).getLink();
 				
 		return websiteClient.getReadyHTML(link);
 	}

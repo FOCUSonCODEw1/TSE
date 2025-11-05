@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.lang.InterruptedException;
 import java.util.LinkedList;
+import java.time.Duration;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -32,7 +33,8 @@ public class SearXNGClient implements APIClientInterface{
 				.build();
 
 				HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(this.buildURL(searchQuery)))
+				.uri(URI.create(this.buildURL(searchQuery)))	
+				.timeout(Duration.ofSeconds(20))
 				.GET()
 				.build();
 

@@ -29,6 +29,7 @@ public class WebsiteClient{
 
 			HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(Link))
+				.header("Accept-Encoding", "gzip, deflate")
 				.GET()
 				.build();
 
